@@ -3,7 +3,7 @@
 name: Releases
 
 env:
-  PLUGIN_NAME: logseq-plugin-template-react
+  PLUGIN_NAME: logseq-plugin-todo-master
 
 # Controls when the action will run.
 on:

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useMountedState } from "react-use";
+import { useDebounce, useMountedState } from "react-use";
 
 export const useAppVisible = () => {
   const [visible, setVisible] = useState(logseq.isMainUIVisible);
@@ -31,3 +31,39 @@ export const useSidebarVisible = () => {
   }, []);
   return visible;
 };
+
+export const useThemeMode = () => {
+  const isMounted = useMountedState();
+  const [mode, setMode] = React.useState<"dark" | "light">("light");
+  React.useEffect(() => {
+    setMode(
+      (top!.document
+        .querySelector("html")
+        ?.getAttribute("data-theme") as typeof mode) ??
+        (matchMedia("prefers-color-scheme: dark").matches ? "dark" : "light")
+    );
+    return logseq.App.onThemeModeChanged((s) => {
+      if (isMounted()) {
+        setMode(s.mode);
+      }
+    });
+  }, [isMounted]);
+
+  return mode;
+};
+
+export const isInlineMode = () => {
+  return !window.frameElement?.className.includes("lsp-iframe-sandbox");
+};
+
+export function useDebounceValue<T>(v: T, timeout: number = 50) {
+  const [state, setState] = React.useState(v);
+  useDebounce(
+    () => {
+      setState(v);
+    },
+    timeout,
+    [v]
+  );
+  return state;
+}
