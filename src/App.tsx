@@ -162,7 +162,10 @@ function useGetTODOStats(meta: { uuid: string | null; counter: number }) {
           const markers = getTreeMarkers(tree);
           setStats(markers);
           // Debug: how long it takes to get the block tree?
-          console.log(meta.counter, performance.now() - start);
+          console.debug(
+            "get block tree markers takes: ",
+            performance.now() - start
+          );
         }
       });
     }
