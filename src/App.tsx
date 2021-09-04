@@ -21,7 +21,6 @@ function useAdaptMainUIStyle(ref: any) {
       const style: Partial<CSSStyleDeclaration> = {
         userSelect: "none",
         height: "1em",
-        width: "600px",
         margin: "0",
       };
       const iframe = getIframe();
@@ -36,8 +35,8 @@ function useAdaptMainUIStyle(ref: any) {
   }, [ref]);
 }
 
-const iframe = getCurrentBlockElement();
-const watchingBlock = getCurrentBlockElement(iframe?.parentElement);
+const iframeBlock = getCurrentBlockElement();
+const watchingBlock = getCurrentBlockElement(iframeBlock?.parentElement);
 
 function useWatchCurrentBlockChange() {
   const [changeCounter, setChangeCounter] = React.useState(0);
@@ -58,7 +57,11 @@ function useWatchCurrentBlockChange() {
 
   const res = React.useMemo(() => {
     return {
-      uuid: watchingBlock?.getAttribute("blockid") ?? null,
+      uuid:
+        // if the containing block does not has blockid, we then find the ID in the iframe attr map
+        iframeBlock?.getAttribute("blockid") ??
+        getIframe()?.getAttribute("data-block-uuid") ??
+        null,
       counter: slowCounter,
     };
   }, [slowCounter]);
@@ -66,6 +69,7 @@ function useWatchCurrentBlockChange() {
   return res;
 }
 
+// No block tree API yet. We get the page tree first and then find the block node.
 async function getBlockTree(uuid: string) {
   const a = await _logseq.Editor.getBlock(uuid);
   if (a) {
@@ -97,7 +101,17 @@ async function getBlockTree(uuid: string) {
   }
 }
 
-function getTreeMarkers(roo: BlockEntity) {
+const allMarkers = [
+  "done",
+  "now",
+  "later",
+  "doing", // maps to now
+  "todo", // maps to later
+] as const;
+
+type Marker = typeof allMarkers[number];
+
+function getTreeMarkers(roo: BlockEntity): Marker[] {
   const res: any = [];
   function traverse(tree: BlockEntity) {
     if (tree.children) {
@@ -106,15 +120,40 @@ function getTreeMarkers(roo: BlockEntity) {
       }
     }
     if (tree.uuid && tree.marker) {
-      res.push(tree.marker);
+      res.push(tree.marker.toLowerCase());
     }
   }
   traverse(roo);
   return res;
 }
 
+// We cannot simply use querySelector to find the TODOs, because
+// the todo may not yet rendered for various reasons.
 function useGetTODOStats(meta: { uuid: string | null }) {
-  const [stats, setStats] = React.useState<any>(undefined);
+  function unify(m: Marker): Exclude<Marker, "doing" | "todo"> {
+    if (m === "todo") {
+      return "later";
+    }
+    if (m === "doing") {
+      return "now";
+    }
+    return m;
+  }
+  const reduceToMap = (vals?: Marker[]) => {
+    return (vals ?? []).reduce(
+      (acc, val) => {
+        const k = unify(val);
+        acc[k] = acc[k] + 1;
+        return acc;
+      },
+      {
+        done: 0,
+        later: 0,
+        now: 0,
+      }
+    );
+  };
+  const [stats, setStats] = React.useState<Marker[]>([]);
   React.useEffect(() => {
     if (meta?.uuid) {
       getBlockTree(meta.uuid).then((tree) => {
@@ -125,35 +164,37 @@ function useGetTODOStats(meta: { uuid: string | null }) {
       });
     }
   }, [meta]);
-  return stats;
+  return reduceToMap(stats);
 }
-
-const toSet = (vals?: string[]) => {
-  return (vals ?? []).reduce((acc, val) => {
-    acc[val] = (acc[val] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
-};
 
 function App() {
   const themeMode = useThemeMode();
   const value = useWatchCurrentBlockChange();
   useAdaptMainUIStyle(value);
-  const markers = toSet(useGetTODOStats(value));
-  const done = markers["DONE"] ?? 0;
-  const now = markers["NOW"] ?? 0;
-  const later = markers["LATER"] ?? 0;
+  const markers = useGetTODOStats(value);
+  const done = markers.done;
+  const now = markers.now;
+  const later = markers.later;
 
   return (
     <main
       style={{ width: "100vw", height: "100vh" }}
       className={`${themeMode}`}
     >
-      <div className="dark:text-light-200 flex h-full items-center">
-        <div className="w-48 flex rounded border h-full items-stretch">
-          <div style={{ flexGrow: done }} className="bg-green-400 " />
-          <div style={{ flexGrow: now }} className="bg-blue-400" />
-          <div style={{ flexGrow: later }} className="bg-transparent" />
+      <div className="dark:text-light-200 light:text-dark-200 flex w-full h-full items-center overflow-hidden">
+        <div className="flex rounded border w-full h-full items-stretch">
+          <div
+            style={{ flexGrow: done }}
+            className="bg-green-400 transition-all"
+          />
+          <div
+            style={{ flexGrow: now }}
+            className="bg-blue-400 transition-all"
+          />
+          <div
+            style={{ flexGrow: later }}
+            className="bg-transparent transition-all"
+          />
         </div>
         <div className="text-sm font-serif ml-2">{`${done}/${
           done + now + later
