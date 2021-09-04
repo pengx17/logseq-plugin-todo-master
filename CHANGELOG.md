@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.0.0...v1.0.1) (2021-09-04)
+
+
+### Bug Fixes
+
+* optimize logic ([a22af64](https://github.com/pengx17/logseq-plugin-todo-master/commit/a22af645af1c4e01ad2593987811a0dbbbc07423))
+
 # 1.0.0 (2021-09-03)
 
 
