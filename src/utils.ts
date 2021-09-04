@@ -32,7 +32,7 @@ export const useSidebarVisible = () => {
   return visible;
 };
 
-export const useThemeMode = () => {
+export const useThemeMode = (logseq: typeof window.logseq) => {
   const isMounted = useMountedState();
   const [mode, setMode] = React.useState<"dark" | "light">("light");
   React.useEffect(() => {

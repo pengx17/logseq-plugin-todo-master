@@ -4,7 +4,7 @@ export function registerCommand() {
     async () => {
       const block = await logseq.Editor.getCurrentBlock();
       if (block?.uuid) {
-        const newContent = ` <iframe src='${logseq.baseInfo.entry}' data-block-uuid='${block.uuid}' style="display: inline-block; height: 1rem; width: 200px"></iframe> `;
+        const newContent = ` <iframe src='${logseq.baseInfo.entry}' data-block-uuid='${block.uuid}' style="display: inline-block; height: 1rem; width: 200px; margin: 0;"></iframe> `;
         logseq.Editor.insertAtEditingCursor(newContent);
       }
     }

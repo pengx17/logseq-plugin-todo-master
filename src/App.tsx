@@ -129,7 +129,7 @@ function getTreeMarkers(roo: BlockEntity): Marker[] {
 
 // We cannot simply use querySelector to find the TODOs, because
 // the todo may not yet rendered for various reasons.
-function useGetTODOStats(meta: { uuid: string | null }) {
+function useGetTODOStats(meta: { uuid: string | null; counter: number }) {
   function unify(m: Marker): Exclude<Marker, "doing" | "todo"> {
     if (m === "todo") {
       return "later";
@@ -156,19 +156,35 @@ function useGetTODOStats(meta: { uuid: string | null }) {
   const [stats, setStats] = React.useState<Marker[]>([]);
   React.useEffect(() => {
     if (meta?.uuid) {
+      const start = performance.now();
       getBlockTree(meta.uuid).then((tree) => {
         if (tree) {
           const markers = getTreeMarkers(tree);
           setStats(markers);
+          // Debug: how long it takes to get the block tree?
+          console.log(meta.counter, performance.now() - start);
         }
       });
     }
-  }, [meta]);
+  }, [meta.counter, meta.uuid]);
   return reduceToMap(stats);
 }
 
+function renderBar(num: number, color: string, text: string) {
+  return (
+    <div
+      style={{ flexGrow: num }}
+      className={`${color} transition-all group relative`}
+    >
+      <div className="group-hover:visible invisible absolute left-1">
+        {text}:{num}
+      </div>
+    </div>
+  );
+}
+
 function App() {
-  const themeMode = useThemeMode();
+  const themeMode = useThemeMode(_logseq);
   const value = useWatchCurrentBlockChange();
   useAdaptMainUIStyle(value);
   const markers = useGetTODOStats(value);
@@ -181,24 +197,13 @@ function App() {
       style={{ width: "100vw", height: "100vh" }}
       className={`${themeMode}`}
     >
-      <div className="dark:text-light-200 light:text-dark-200 flex w-full h-full items-center overflow-hidden">
+      <div className="dark:text-light-200 light:text-dark-200 flex w-full h-full items-center overflow-hidden select-none text-xs font-mono">
         <div className="flex rounded border w-full h-full items-stretch">
-          <div
-            style={{ flexGrow: done }}
-            className="bg-green-400 transition-all"
-          />
-          <div
-            style={{ flexGrow: now }}
-            className="bg-blue-400 transition-all"
-          />
-          <div
-            style={{ flexGrow: later }}
-            className="bg-transparent transition-all"
-          />
+          {renderBar(done, "bg-green-400", "done")}
+          {renderBar(now, "bg-blue-400", "now")}
+          {renderBar(later, "bg-transparent", "later")}
         </div>
-        <div className="text-sm font-serif ml-2">{`${done}/${
-          done + now + later
-        }`}</div>
+        <div className="text-sm ml-2">{`${done}/${done + now + later}`}</div>
       </div>
     </main>
   );
