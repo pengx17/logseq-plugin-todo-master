@@ -1,3 +1,15 @@
+# [1.1.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.0.1...v1.1.0) (2021-09-04)
+
+
+### Bug Fixes
+
+* debug log ([3f35ac0](https://github.com/pengx17/logseq-plugin-todo-master/commit/3f35ac0a779790896685e7d478a70c3be15a5424))
+
+
+### Features
+
+* show TODO counts when hovering ([bac3451](https://github.com/pengx17/logseq-plugin-todo-master/commit/bac3451cf1e593ef14b9c5f5cda090a1a13a86d8))
+
 ## [1.0.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.0.0...v1.0.1) (2021-09-04)
 
 
