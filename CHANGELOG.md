@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.1.0...v1.1.1) (2021-09-04)
+
+
+### Bug Fixes
+
+* downgrade @logseq/libs ([dbfc860](https://github.com/pengx17/logseq-plugin-todo-master/commit/dbfc860c38a190969dc082ca138efa46c9e1b8f5))
+
 # [1.1.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.0.1...v1.1.0) (2021-09-04)
 
 
