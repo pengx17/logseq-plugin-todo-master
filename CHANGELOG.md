@@ -1,5 +1,12 @@
 # 1.0.0 (2021-09-03)
 
+
+### Bug Fixes
+
+* draft version ([462b033](https://github.com/pengx17/logseq-plugin-todo-master/commit/462b033b8b3f317e19aee2dce459e3127c3af6ec))
+
+# 1.0.0 (2021-09-03)
+
 ### Bug Fixes
 
 - build ([fd35d6c](https://github.com/pengx17/logseq-plugin-todo-master/commit/fd35d6c098e030920da26a65c734940a27b604df))
