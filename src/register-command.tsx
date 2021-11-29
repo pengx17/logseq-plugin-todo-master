@@ -42,36 +42,45 @@ const reduceToMap = (vals?: Marker[]) => {
   );
 };
 
-async function getTODOStats(uuid: string) {
-  const markers = await getBlockMarkers(uuid);
+async function getTODOStats(maybeUUID: string) {
+  const markers = await getBlockMarkers(maybeUUID);
   return reduceToMap(markers);
 }
 
-async function getBlockMarkers(uuid: string): Promise<Marker[]> {
-  const block = await logseq.Editor.getBlock(uuid, { includeChildren: true });
+function checkIsUUid(maybeUUID: string) {
+  return maybeUUID.length === 36 && maybeUUID.includes('-');
+}
 
-  if (!block) {
+async function getBlockMarkers(maybeUUID: string): Promise<Marker[]> {
+  let tree: any;
+  if (checkIsUUid(maybeUUID)) {
+    tree = await logseq.Editor.getBlock(maybeUUID, { includeChildren: true });
+  } else {
+    tree = { children: await logseq.Editor.getPageBlocksTree(maybeUUID) };
+  }
+
+  if (!tree) {
     return [];
   }
 
   const res: any[] = [];
-  function traverse(tree: BlockEntity) {
+  function traverse(tree: any) {
     if (tree.children) {
       for (const child of tree.children) {
-        traverse(child as BlockEntity);
+        traverse(child);
       }
     }
     if (tree.uuid && tree.marker) {
       res.push(tree.marker.toLowerCase());
     }
   }
-  traverse(block);
+  traverse(tree);
   return res;
 }
 
-async function render(uuid: string, slot: string) {
+async function render(maybeUUID: string, slot: string) {
   try {
-    const status = await getTODOStats(uuid);
+    const status = await getTODOStats(maybeUUID);
     const template = ReactDOMServer.renderToStaticMarkup(
       <ProgressBar {...status} />
     );
@@ -140,22 +149,46 @@ export function registerCommand() {
   `);
 
   logseq.App.onMacroRendererSlotted(async ({ payload, slot }) => {
-    const uuid = payload.uuid;
     const [type] = payload.arguments;
     if (!type?.startsWith(macroPrefix)) {
       return;
     }
-    render(uuid, slot);
+
+    const maybeUUID = type.substring(macroPrefix.length + 1);
+    render(atob(maybeUUID), slot);
   });
 
-  logseq.Editor.registerSlashCommand(
-    "[TODO Master] Add Progress Bar",
-    async () => {
-      const newContent = `{{renderer ${macroPrefix}}}`;
-      const block = await logseq.Editor.getCurrentBlock();
-      if (block) {
-        await logseq.Editor.insertAtEditingCursor(newContent);
+  async function insertMacro(mode: "page" | "block") {
+    const block = await logseq.Editor.getCurrentBlock();
+    if (block && block.uuid) {
+      let content = "";
+      let maybeUUID = "";
+      if (mode === "block") {
+        maybeUUID = block.uuid;
+      } else {
+        const page = await logseq.Editor.getPage(block.page.id);
+        if (page?.originalName) {
+          maybeUUID = page.originalName;
+        }
       }
+      if (maybeUUID) {
+        content = `{{renderer ${macroPrefix}-${btoa(maybeUUID)}}}`;
+        await logseq.Editor.insertAtEditingCursor(content);
+      }
+    }
+  }
+
+  logseq.Editor.registerSlashCommand(
+    "[TODO Master] Add Progress Bar for children blocks",
+    async () => {
+      return insertMacro("block");
+    }
+  );
+
+  logseq.Editor.registerSlashCommand(
+    "[TODO Master] Add Progress Bar for current page",
+    async () => {
+      return insertMacro("page");
     }
   );
 }
