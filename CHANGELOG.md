@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.1.2...v1.2.0) (2021-11-29)
+
+
+### Features
+
+* use onMacroRendererSlotted instead ([662a857](https://github.com/pengx17/logseq-plugin-todo-master/commit/662a857c30eaa92532573dde20f2a6163764b4c7))
+
 ## [1.1.2](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.1.1...v1.1.2) (2021-09-04)
 
 
