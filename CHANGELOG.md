@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.2.0...v1.2.1) (2021-11-29)
+
+
+### Bug Fixes
+
+* word wrap ([aaf3a65](https://github.com/pengx17/logseq-plugin-todo-master/commit/aaf3a6594864fb86ff00a2b4da23ee684545d3c9))
+
 # [1.2.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.1.2...v1.2.0) (2021-11-29)
 
 
