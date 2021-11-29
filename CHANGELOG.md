@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.3.0...v1.3.1) (2021-11-29)
+
+
+### Bug Fixes
+
+* update issue for page mode ([3cd34e7](https://github.com/pengx17/logseq-plugin-todo-master/commit/3cd34e780a799f1f1a4721baa6c744da324c27d1))
+
 # [1.3.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.2.1...v1.3.0) (2021-11-29)
 
 
