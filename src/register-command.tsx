@@ -116,6 +116,7 @@ export function registerCommand() {
       position: absolute;
       margin-left: 0.25em;
       display: none;
+      white-space: nowrap;
     }
 
     .todo-master-progress-bar__bar:hover
