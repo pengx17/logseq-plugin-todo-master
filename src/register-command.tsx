@@ -48,7 +48,7 @@ async function getTODOStats(maybeUUID: string) {
 }
 
 function checkIsUUid(maybeUUID: string) {
-  return maybeUUID.length === 36 && maybeUUID.includes('-');
+  return maybeUUID.length === 36 && maybeUUID.includes("-");
 }
 
 async function getBlockMarkers(maybeUUID: string): Promise<Marker[]> {
@@ -78,24 +78,54 @@ async function getBlockMarkers(maybeUUID: string): Promise<Marker[]> {
   return res;
 }
 
-async function render(maybeUUID: string, slot: string) {
+async function render(maybeUUID: string, slot: string, counter: number) {
   try {
+    if (rendering.get(slot) !== maybeUUID) {
+      return;
+    }
     const status = await getTODOStats(maybeUUID);
+    if (rendering.get(slot) !== maybeUUID) {
+      return;
+    }
     const template = ReactDOMServer.renderToStaticMarkup(
       <ProgressBar {...status} />
     );
 
-    logseq.provideUI({
-      key: "js-playground",
-      slot,
-      reset: true,
-      template: template,
-    });
+    // See https://github.com/logseq/logseq-plugin-samples/blob/master/logseq-pomodoro-timer/index.ts#L92
+    const pluginId = "todomaster";
+    const keepKey = `${pluginId}-${slot}-${logseq.baseInfo.id}`;
+
+    if (counter === 0 || (await logseq.App.queryElementById(keepKey))) {
+      logseq.provideStyle(css`
+        #${slot} {
+          vertical-align: middle;
+          line-height: 1.2;
+        }
+      `);
+      logseq.provideUI({
+        key: pluginId,
+        slot,
+        reset: true,
+        template: template,
+      });
+      return true;
+    }
   } catch (err: any) {
     console.error(err);
     // skip invalid
   }
 }
+
+async function startRendering(maybeUUID: string, slot: string) {
+  rendering.set(slot, maybeUUID);
+  let counter = 0;
+  while (await render(maybeUUID, slot, counter++)) {
+    // sleep for 3000ms
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+  }
+}
+
+const rendering = new Map<string, string>();
 
 export function registerCommand() {
   logseq.provideStyle(css`
@@ -110,6 +140,7 @@ export function registerCommand() {
     .todo-master-progress-bar__bars {
       display: flex;
       flex: 1;
+      overflow: hidden;
       align-items: stretch;
       margin-right: 0.5em;
       border-radius: 4px;
@@ -154,8 +185,8 @@ export function registerCommand() {
       return;
     }
 
-    const maybeUUID = type.substring(macroPrefix.length + 1);
-    render(atob(maybeUUID), slot);
+    const maybeUUID = atob(type.substring(macroPrefix.length + 1));
+    startRendering(maybeUUID, slot);
   });
 
   async function insertMacro(mode: "page" | "block") {
