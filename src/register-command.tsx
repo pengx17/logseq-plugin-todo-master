@@ -96,12 +96,6 @@ async function render(maybeUUID: string, slot: string, counter: number) {
     const keepKey = `${pluginId}-${slot}-${logseq.baseInfo.id}`;
 
     if (counter === 0 || (await logseq.App.queryElementById(keepKey))) {
-      logseq.provideStyle(css`
-        #${slot} {
-          vertical-align: middle;
-          line-height: 1.2;
-        }
-      `);
       logseq.provideUI({
         key: pluginId,
         slot,
@@ -119,6 +113,7 @@ async function render(maybeUUID: string, slot: string, counter: number) {
 async function startRendering(maybeUUID: string, slot: string) {
   rendering.set(slot, maybeUUID);
   let counter = 0;
+
   while (await render(maybeUUID, slot, counter++)) {
     // sleep for 3000ms
     await new Promise((resolve) => setTimeout(resolve, 3000));
@@ -132,6 +127,7 @@ export function registerCommand() {
     .todo-master-progress-bar {
       max-width: 100%;
       width: 300px;
+      height: 1rem;
       cursor: default;
       font-family: monospace;
       display: inline-flex;
