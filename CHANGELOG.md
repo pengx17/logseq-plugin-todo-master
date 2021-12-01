@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.3.2...v1.3.3) (2021-12-01)
+
+
+### Bug Fixes
+
+* style fixes ([ee1da93](https://github.com/pengx17/logseq-plugin-todo-master/commit/ee1da93b344b1b2d6b772465aec8fc8a6d08cb6f))
+
 ## [1.3.2](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.3.1...v1.3.2) (2021-11-30)
 
 
