@@ -1,4 +1,5 @@
 import React from "react";
+export { default as style } from "./style.css";
 
 function renderBar(num: number, marker: string) {
   return (
@@ -14,14 +15,24 @@ function renderBar(num: number, marker: string) {
 }
 
 export function ProgressBar({
-  later,
-  now,
-  done,
+  status,
 }: {
-  later: number;
-  now: number;
-  done: number;
+  status: {
+    later: number;
+    now: number;
+    done: number;
+  } | null;
 }) {
+  if (!status) {
+    return (
+      <div className="todo-master-progress-bar">
+        <div className="todo-master-progress-bar__target-not-found">
+          Tracking target not found.
+        </div>
+      </div>
+    );
+  }
+  const { done, now, later } = status;
   const total = done + now + later;
   return (
     <div className="todo-master-progress-bar">

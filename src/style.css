@@ -1,0 +1,57 @@
+.todo-master-progress-bar {
+  max-width: 100%;
+  height: 1rem;
+  cursor: default;
+  font-family: monospace;
+  display: inline-flex;
+  font-size: 0.8rem;
+  transform: translate(0, 2px);
+}
+
+.todo-master-progress-bar__bars {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  margin-right: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #eaeaea;
+  width: 240px;
+}
+
+.todo-master-progress-bar__bar {
+  transition: all 0.2s;
+  position: relative;
+}
+
+.todo-master-progress-bar__bar-inner-text {
+  position: absolute;
+  margin-left: 0.25rem;
+  display: none;
+  white-space: nowrap;
+  line-height: 14px;
+}
+
+.todo-master-progress-bar__bar:hover .todo-master-progress-bar__bar-inner-text {
+  display: block;
+}
+
+.todo-master-progress-bar__bar-done {
+  background-color: var(--ph-highlight-color-green);
+}
+.todo-master-progress-bar__bar-now {
+  background-color: var(--ph-highlight-color-blue);
+}
+.todo-master-progress-bar__bar-later {
+  background-color: transparent;
+}
+
+.todo-master-progress-bar__label {
+  white-space: nowrap;
+  font-weight: 600;
+  line-height: 14px;
+}
+
+.todo-master-progress-bar__target-not-found {
+  color: red;
+  transform: translate(0, -2px);
+}
