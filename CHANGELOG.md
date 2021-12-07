@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.3.3...v1.4.0) (2021-12-07)
+
+
+### Features
+
+* allow the user to use {{renderer :todomaster}} without given the encoded ID ([aafa4a6](https://github.com/pengx17/logseq-plugin-todo-master/commit/aafa4a6384d072987656dd6adad1340023691e6e))
+
 ## [1.3.3](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.3.2...v1.3.3) (2021-12-01)
 
 
