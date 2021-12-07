@@ -1,4 +1,5 @@
 import React from "react";
+import { encode, decode } from "js-base64";
 import ReactDOMServer from "react-dom/server";
 import { ProgressBar, style } from "./progress-bar";
 
@@ -66,7 +67,13 @@ async function getBlockMarkers(maybeUUID: string): Promise<Marker[] | null> {
         traverse(child);
       }
     }
-    if (tree.uuid && tree.marker) {
+
+    if (
+      tree.uuid &&
+      tree.marker &&
+      // Block should have contents:
+      (tree.title.length || tree.body.length)
+    ) {
       res.push(tree.marker.toLowerCase());
     }
   }
@@ -145,7 +152,7 @@ export function registerCommand() {
     if (type === macroPrefix) {
       maybeUUID = payload.uuid;
     } else {
-      maybeUUID = atob(type.substring(macroPrefix.length + 1));
+      maybeUUID = decode(type.substring(macroPrefix.length + 1));
     }
     startRendering(maybeUUID, slot);
   });
@@ -165,7 +172,7 @@ export function registerCommand() {
       }
       if (maybeUUID) {
         // Use base64 to avoid incorrectly rendering in properties
-        content = `{{renderer ${macroPrefix}-${btoa(maybeUUID)}}}`;
+        content = `{{renderer ${macroPrefix}-${encode(maybeUUID)}}}`;
         await logseq.Editor.insertAtEditingCursor(content);
       }
     }

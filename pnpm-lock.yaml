@@ -14,6 +14,7 @@ specifiers:
   '@vitejs/plugin-react': ^1.1.1
   conventional-changelog-conventionalcommits: 4.6.1
   eslint: 8.4.1
+  js-base64: ^3.7.2
   react: ^17.0.2
   react-dom: ^17.0.2
   react-use: ^17.3.1
@@ -24,6 +25,7 @@ specifiers:
 
 dependencies:
   '@logseq/libs': 0.0.1-alpha.32
+  js-base64: 3.7.2
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
   react-use: 17.3.1_react-dom@17.0.2+react@17.0.2
@@ -2173,6 +2175,10 @@ packages:
     resolution: {integrity: sha512-TdcJywkQtcwLxogc4rSMAi479G2eDPzfW0fLySks7TPhgZZ4s/tM6stnzayIh3gS/db3zExWJyUx4cNWrwAmoQ==}
     hasBin: true
     dev: true
+
+  /js-base64/3.7.2:
+    resolution: {integrity: sha512-NnRs6dsyqUXejqk/yv2aiXlAvOs56sLkX6nUdeaNezI5LFFLlsZjOThmwnrcwh5ZZRwZlCMnVAY3CvhIhoVEKQ==}
+    dev: false
 
   /js-cookie/2.2.1:
     resolution: {integrity: sha512-HvdH2LzI/EAZcUwA8+0nKNtWHqS+ZmijLA30RwZA0bo7ToCckjK5MkGhjED9KoRcXO6BaGI3I9UIzSA1FKFPOQ==}
