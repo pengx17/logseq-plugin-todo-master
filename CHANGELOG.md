@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.4.0...v1.4.1) (2021-12-07)
+
+
+### Bug Fixes
+
+* base64 unicode issue ([80dd15a](https://github.com/pengx17/logseq-plugin-todo-master/commit/80dd15a11c27308acd512d3fa927d405504ccab6))
+
 # [1.4.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.3.3...v1.4.0) (2021-12-07)
 
 
