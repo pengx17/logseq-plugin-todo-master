@@ -140,7 +140,13 @@ export function registerCommand() {
       return;
     }
 
-    const maybeUUID = atob(type.substring(macroPrefix.length + 1));
+    let maybeUUID = null;
+    // Implicitly use the current block
+    if (type === macroPrefix) {
+      maybeUUID = payload.uuid;
+    } else {
+      maybeUUID = atob(type.substring(macroPrefix.length + 1));
+    }
     startRendering(maybeUUID, slot);
   });
 

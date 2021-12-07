@@ -46,9 +46,36 @@
 }
 
 .todo-master-progress-bar__label {
+  position: relative;
   white-space: nowrap;
   font-weight: 600;
   line-height: 14px;
+  width: 8ch;
+}
+
+.todo-master-progress-bar__fraction-label,
+.todo-master-progress-bar__percentage-label {
+  position: absolute;
+  left: 0;
+  transition: all 0.2s;
+}
+
+.todo-master-progress-bar__percentage-label {
+  opacity: 1;
+}
+
+.todo-master-progress-bar__fraction-label {
+  opacity: 0;
+}
+
+.todo-master-progress-bar__label:hover
+  .todo-master-progress-bar__percentage-label {
+  opacity: 0;
+}
+
+.todo-master-progress-bar__label:hover
+  .todo-master-progress-bar__fraction-label {
+  opacity: 1;
 }
 
 .todo-master-progress-bar__target-not-found {

@@ -41,7 +41,12 @@ export function ProgressBar({
         {renderBar(now, "now")}
         {renderBar(later, "later")}
       </div>
-      <div className="todo-master-progress-bar__label">{`${done}/${total}`}</div>
+      <div className="todo-master-progress-bar__label">
+        <div className="todo-master-progress-bar__percentage-label">
+          {`${((done / total) * 100).toFixed(2)}`}%
+        </div>
+        <div className="todo-master-progress-bar__fraction-label">{`${done}/${total}`}</div>
+      </div>
     </div>
   );
 }
