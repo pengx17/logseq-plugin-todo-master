@@ -147,6 +147,8 @@ export function registerCommand() {
       return;
     }
 
+    logseq.provideStyle(`#${slot} {display: inline-flex;}`)
+
     let maybeUUID = null;
     // Implicitly use the current block
     if (type === macroPrefix) {
@@ -154,7 +156,9 @@ export function registerCommand() {
     } else {
       maybeUUID = decode(type.substring(macroPrefix.length + 1));
     }
-    startRendering(maybeUUID, slot);
+    if (maybeUUID) {
+      startRendering(maybeUUID, slot);
+    }
   });
 
   async function insertMacro(mode: "page" | "block") {
