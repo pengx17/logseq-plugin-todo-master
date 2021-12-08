@@ -34,7 +34,7 @@ export function ProgressBar({
   }
   const { done, now, later } = status;
   const total = done + now + later;
-  const percentage = total === 0 ? `0` : ((done / total) * 100).toFixed(2);
+  const percentage = total === 0 ? `0` : ((done / total) * 100).toFixed(0);
   return (
     <div className="todo-master-progress-bar">
       <div className="todo-master-progress-bar__bars">
