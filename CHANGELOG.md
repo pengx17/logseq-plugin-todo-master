@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.4.2...v1.4.3) (2021-12-08)
+
+
+### Bug Fixes
+
+* hide progress bar if uuid is not found ([6fc759d](https://github.com/pengx17/logseq-plugin-todo-master/commit/6fc759dd4b3ef8a7324bd8b0a84d46746109dbc1))
+
 ## [1.4.2](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.4.1...v1.4.2) (2021-12-08)
 
 
