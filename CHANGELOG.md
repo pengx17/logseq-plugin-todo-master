@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.4.1...v1.4.2) (2021-12-08)
+
+
+### Bug Fixes
+
+* remove decimals ([0148b2d](https://github.com/pengx17/logseq-plugin-todo-master/commit/0148b2d90d4dfddcd13fa339904c9e42619b621a))
+
 ## [1.4.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.4.0...v1.4.1) (2021-12-07)
 
 
