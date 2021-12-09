@@ -68,12 +68,7 @@ async function getBlockMarkers(maybeUUID: string): Promise<Marker[] | null> {
       }
     }
 
-    if (
-      tree.uuid &&
-      tree.marker &&
-      // Block should have contents:
-      (tree.title.length || tree.body.length)
-    ) {
+    if (tree.uuid && tree.marker) {
       res.push(tree.marker.toLowerCase());
     }
   }
@@ -147,7 +142,7 @@ export function registerCommand() {
       return;
     }
 
-    logseq.provideStyle(`#${slot} {display: inline-flex;}`)
+    logseq.provideStyle(`#${slot} {display: inline-flex;}`);
 
     let maybeUUID = null;
     // Implicitly use the current block
