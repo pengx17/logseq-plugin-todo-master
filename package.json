@@ -1,6 +1,6 @@
 {
   "name": "logseq-plugin-todo-master",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "main": "dist/index.html",
   "scripts": {
     "dev": "vite",
