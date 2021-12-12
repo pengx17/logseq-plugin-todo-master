@@ -1,3 +1,10 @@
+## [1.4.6](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.4.5...v1.4.6) (2021-12-12)
+
+
+### Bug Fixes
+
+* package logo ([72011eb](https://github.com/pengx17/logseq-plugin-todo-master/commit/72011ebf318ddd5447c4d911106fc5bacf104da6))
+
 ## [1.4.5](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.4.4...v1.4.5) (2021-12-12)
 
 
