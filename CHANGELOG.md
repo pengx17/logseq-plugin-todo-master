@@ -1,3 +1,10 @@
+## [1.4.5](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.4.4...v1.4.5) (2021-12-12)
+
+
+### Bug Fixes
+
+* remove old unused code ([cc26bc2](https://github.com/pengx17/logseq-plugin-todo-master/commit/cc26bc2ac43ff40417f04cadadf60c1816738576))
+
 ## [1.4.4](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.4.3...v1.4.4) (2021-12-09)
 
 
