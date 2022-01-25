@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.4.6...v1.5.0) (2022-01-25)
+
+
+### Features
+
+* always calculate block id based on renderer position ([10e9b5b](https://github.com/pengx17/logseq-plugin-todo-master/commit/10e9b5b5c38af4dd369dd81e62f2744f39703a84))
+
 ## [1.4.6](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.4.5...v1.4.6) (2021-12-12)
 
 
