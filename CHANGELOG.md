@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.5.0...v1.5.1) (2022-01-25)
+
+
+### Bug Fixes
+
+* fallback to renderer block id for now ([1a526f0](https://github.com/pengx17/logseq-plugin-todo-master/commit/1a526f016b20caf8aae04af3c4b90cef5b07d87c))
+
 # [1.5.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.4.6...v1.5.0) (2022-01-25)
 
 
