@@ -174,7 +174,7 @@ export function registerCommand() {
     let maybeUUID = null;
     // Implicitly use the current block
     if (type === macroPrefix) {
-      maybeUUID = getSlotBlockId(slot);
+      maybeUUID = getSlotBlockId(slot) || payload.uuid;
     } else {
       maybeUUID = decode(type.substring(macroPrefix.length + 1));
     }
