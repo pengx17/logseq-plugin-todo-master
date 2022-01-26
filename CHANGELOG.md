@@ -1,3 +1,11 @@
+## [1.6.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.6.0...v1.6.1) (2022-01-26)
+
+
+### Reverts
+
+* Revert "feat: always calculate block id based on renderer position" ([447132a](https://github.com/pengx17/logseq-plugin-todo-master/commit/447132a5dc21bad053ec8b4eae94f79e3df0f17c))
+* Revert "fix: fallback to renderer block id for now" ([3727761](https://github.com/pengx17/logseq-plugin-todo-master/commit/3727761b9971127914eeac3802cf2c8404b2106c))
+
 # [1.6.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.5.2...v1.6.0) (2022-01-26)
 
 
