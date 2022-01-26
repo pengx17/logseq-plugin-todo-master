@@ -1,7 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@logseq/libs': ^0.0.1-alpha.34
+  '@logseq/libs': ^0.0.1-alpha.32
   '@semantic-release/changelog': 6.0.1
   '@semantic-release/exec': 6.0.2
   '@semantic-release/git': 10.0.1
@@ -24,7 +24,7 @@ specifiers:
   vite-plugin-windicss: 1.5.4
 
 dependencies:
-  '@logseq/libs': 0.0.1-alpha.34
+  '@logseq/libs': 0.0.1-alpha.32
   js-base64: 3.7.2
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
@@ -374,8 +374,8 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@logseq/libs/0.0.1-alpha.34:
-    resolution: {integrity: sha512-tYxWUgRDe+nsZYM55UXqHyoHoBJhkFNcDQtfyFRfdbvP41fOQUKuyo0Przi/CXVtuTFaPnQmmlatvUeCAUyf4A==}
+  /@logseq/libs/0.0.1-alpha.32:
+    resolution: {integrity: sha512-gs+cILdREq6By4K/2tFWE2oW4QU4SbyhUwGRMSMHXfrm7WSPL+hsUenoHLBOF9Koam+RbRzM5/SohDDoPIGNNg==}
     dependencies:
       csstype: 3.0.10
       debug: 4.3.3
