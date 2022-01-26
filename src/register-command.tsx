@@ -133,30 +133,6 @@ async function startRendering(maybeUUID: string, slot: string) {
   }
 }
 
-// function isSlotInBlockRef(slot: string) {
-//   let el = top?.document.querySelector(`#${slot}`);
-//   while (el) {
-//     if (el.classList.contains("block-ref")) {
-//       return true;
-//     }
-//     el = el.parentElement;
-//   }
-//   return false;
-// }
-
-// ? is this slow?
-function getSlotBlockId(slot: string) {
-  let el = top?.document.querySelector(`#${slot}`);
-  // Stop if this progress bar is rendering in breadcrumbs
-  while (el && !el.classList.contains("block-parents")) {
-    if (el.getAttribute("blockid")) {
-      return el.getAttribute("blockid");
-    }
-    el = el.parentElement;
-  }
-  return null;
-}
-
 export function registerCommand() {
   logseq.provideStyle(style);
 
@@ -166,15 +142,12 @@ export function registerCommand() {
       return;
     }
 
-    logseq.provideStyle({
-      key: slot,
-      style: `#${slot} {display: inline-flex;}`,
-    });
+    logseq.provideStyle(`#${slot} {display: inline-flex;}`);
 
     let maybeUUID = null;
     // Implicitly use the current block
     if (type === macroPrefix) {
-      maybeUUID = getSlotBlockId(slot);
+      maybeUUID = payload.uuid;
     } else {
       maybeUUID = decode(type.substring(macroPrefix.length + 1));
     }
@@ -189,8 +162,7 @@ export function registerCommand() {
       let content = "";
       let maybeUUID = "";
       if (mode === "block") {
-        // We will now always use implicit block IDs
-        // maybeUUID = block.uuid;
+        maybeUUID = block.uuid;
       } else {
         const page = await logseq.Editor.getPage(block.page.id);
         if (page?.originalName) {
@@ -200,10 +172,8 @@ export function registerCommand() {
       if (maybeUUID) {
         // Use base64 to avoid incorrectly rendering in properties
         content = `{{renderer ${macroPrefix}-${encode(maybeUUID)}}}`;
-      } else {
-        content = `{{renderer ${macroPrefix}}}`;
+        await logseq.Editor.insertAtEditingCursor(content);
       }
-      await logseq.Editor.insertAtEditingCursor(content);
     }
   }
 
