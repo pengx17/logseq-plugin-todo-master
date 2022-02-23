@@ -68,7 +68,7 @@ async function getBlockMarkers(maybeUUID: string): Promise<Marker[] | null> {
       }
     }
 
-    if (tree.uuid && tree.marker) {
+    if (tree.uuid && tree.marker && tree.uuid !== maybeUUID) {
       res.push(tree.marker.toLowerCase());
     }
   }
