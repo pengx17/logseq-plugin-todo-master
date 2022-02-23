@@ -142,7 +142,10 @@ export function registerCommand() {
       return;
     }
 
-    logseq.provideStyle(`#${slot} {display: inline-flex;}`);
+    logseq.provideStyle({
+      key: slot,
+      style: `#${slot} {display: inline-flex;}`,
+    });
 
     let maybeUUID = null;
     // Implicitly use the current block
@@ -162,7 +165,8 @@ export function registerCommand() {
       let content = "";
       let maybeUUID = "";
       if (mode === "block") {
-        maybeUUID = block.uuid;
+        // We will from now on always use implicit block IDs to get rid of "Tracking target not found" issue
+        // maybeUUID = block.uuid;
       } else {
         const page = await logseq.Editor.getPage(block.page.id);
         if (page?.originalName) {
@@ -172,8 +176,10 @@ export function registerCommand() {
       if (maybeUUID) {
         // Use base64 to avoid incorrectly rendering in properties
         content = `{{renderer ${macroPrefix}-${encode(maybeUUID)}}}`;
-        await logseq.Editor.insertAtEditingCursor(content);
+      } else {
+        content = `{{renderer ${macroPrefix}}}`;
       }
+      await logseq.Editor.insertAtEditingCursor(content);
     }
   }
 

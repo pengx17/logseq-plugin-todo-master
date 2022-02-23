@@ -3,13 +3,13 @@
   height: 1rem;
   cursor: default;
   font-family: monospace;
-  display: inline-flex;
+  display: inline-flex !important;
   font-size: 0.8rem;
   transform: translate(0, 2px);
 }
 
 .todo-master-progress-bar__bars {
-  display: flex;
+  display: flex !important;
   flex: 1;
   overflow: hidden;
   margin-right: 0.5rem;
@@ -26,13 +26,13 @@
 .todo-master-progress-bar__bar-inner-text {
   position: absolute;
   margin-left: 0.25rem;
-  display: none;
+  visibility: hidden;
   white-space: nowrap;
   line-height: 14px;
 }
 
 .todo-master-progress-bar__bar:hover .todo-master-progress-bar__bar-inner-text {
-  display: block;
+  visibility: visible;
 }
 
 .todo-master-progress-bar__bar-done {
@@ -50,7 +50,7 @@
   white-space: nowrap;
   font-weight: 600;
   line-height: 14px;
-  width: 8ch;
+  width: 4ch;
 }
 
 .todo-master-progress-bar__fraction-label,
