@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.7.0...v1.7.1) (2022-02-24)
+
+
+### Bug Fixes
+
+* add bg color for todo/later ([3c908c3](https://github.com/pengx17/logseq-plugin-todo-master/commit/3c908c3ad6846a41ed985d4365d102656c771d84)), closes [#16](https://github.com/pengx17/logseq-plugin-todo-master/issues/16)
+
 # [1.7.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.6.1...v1.7.0) (2022-02-23)
 
 
