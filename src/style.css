@@ -14,7 +14,7 @@
   overflow: hidden;
   margin-right: 0.5rem;
   border-radius: 4px;
-  border: 1px solid #eaeaea;
+  box-shadow: 0 0 1px #aaa;
   width: 240px;
 }
 
@@ -38,11 +38,13 @@
 .todo-master-progress-bar__bar-done {
   background-color: var(--ph-highlight-color-green);
 }
+
 .todo-master-progress-bar__bar-now {
   background-color: var(--ph-highlight-color-blue);
 }
+
 .todo-master-progress-bar__bar-later {
-  background-color: transparent;
+  background-color: var(--ls-tertiary-background-color);
 }
 
 .todo-master-progress-bar__label {
