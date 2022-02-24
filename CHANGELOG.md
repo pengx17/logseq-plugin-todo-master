@@ -1,3 +1,15 @@
+# [1.7.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.6.1...v1.7.0) (2022-02-23)
+
+
+### Bug Fixes
+
+* do not count current block ([627d9e5](https://github.com/pengx17/logseq-plugin-todo-master/commit/627d9e5d2c13bc331c73c3ecf0b8f13aa157a251))
+
+
+### Features
+
+* do not use uuid for block-ref ([809df1c](https://github.com/pengx17/logseq-plugin-todo-master/commit/809df1c6767bcf4a49c6cf90caa0352a7f9791e8)), closes [#9](https://github.com/pengx17/logseq-plugin-todo-master/issues/9)
+
 ## [1.6.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.6.0...v1.6.1) (2022-01-26)
 
 
