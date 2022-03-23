@@ -1,7 +1,8 @@
 import React from "react";
 import { encode, decode } from "js-base64";
 import ReactDOMServer from "react-dom/server";
-import { ProgressBar, style } from "./progress-bar";
+import { ProgressBar } from "./progress-bar";
+import style from "./style.tcss?raw";
 
 const macroPrefix = ":todomaster";
 

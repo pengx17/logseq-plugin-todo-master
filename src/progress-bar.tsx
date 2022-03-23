@@ -1,5 +1,4 @@
 import React from "react";
-export { default as style } from "./style.css";
 
 function renderBar(num: number, marker: string) {
   return (
