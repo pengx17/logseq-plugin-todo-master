@@ -21,7 +21,7 @@ specifiers:
   semantic-release: 19.0.2
   typescript: 4.6.2
   vite: 2.8.6
-  vite-plugin-logseq: ^0.0.2
+  vite-plugin-logseq: ^1.0.0
   vite-plugin-windicss: 1.8.3
 
 dependencies:
@@ -47,7 +47,7 @@ devDependencies:
   semantic-release: 19.0.2
   typescript: 4.6.2
   vite: 2.8.6
-  vite-plugin-logseq: 0.0.2
+  vite-plugin-logseq: 1.0.1
   vite-plugin-windicss: 1.8.3_vite@2.8.6
 
 packages:
@@ -2428,6 +2428,13 @@ packages:
       sourcemap-codec: 1.4.8
     dev: true
 
+  /magic-string/0.26.1:
+    resolution: {integrity: sha512-ndThHmvgtieXe8J/VGPjG+Apu7v7ItcD5mhEIvOscWjPF/ccOiLxHaSuCAS2G+3x4GKsAbT8u7zdyamupui8Tg==}
+    engines: {node: '>=12'}
+    dependencies:
+      sourcemap-codec: 1.4.8
+    dev: true
+
   /map-obj/1.0.1:
     resolution: {integrity: sha1-2TPOuSBdgr3PSIb2dCvcK03qFG0=}
     engines: {node: '>=0.10.0'}
@@ -3620,11 +3627,6 @@ packages:
     dev: true
     optional: true
 
-  /undici/4.16.0:
-    resolution: {integrity: sha512-tkZSECUYi+/T1i4u+4+lwZmQgLXd4BLGlrc7KZPcLIW7Jpq99+Xpc30ONv7nS6F5UNOxp/HBZSSL9MafUrvJbw==}
-    engines: {node: '>=12.18'}
-    dev: true
-
   /unique-string/2.0.0:
     resolution: {integrity: sha512-uNaeirEPvpZWSgzwsPGtU2zVSTrn/8L5q/IexZmH0eH6SA73CmAA5U4GwORTxQAZs95TAXLNqeLoPPNO5gZfWg==}
     engines: {node: '>=8'}
@@ -3672,10 +3674,10 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite-plugin-logseq/0.0.2:
-    resolution: {integrity: sha512-TExFfarX7AullJEnYAg8kB5X8ZKMSTQgbDbzERJiCaFhtWAT8JJf86I1EuyVsrXubVqn9fiHJ33hANaXYMx5Jg==}
+  /vite-plugin-logseq/1.0.1:
+    resolution: {integrity: sha512-XkeQ6sFog5ZmgN7IU24NtPlUIzBjoxxoxTxQGT3iyVMEjWca55lF+zxzFSNxEHRe9Bvs18hzS1cuEe82HAGEIg==}
     dependencies:
-      undici: 4.16.0
+      magic-string: 0.26.1
     dev: true
 
   /vite-plugin-windicss/1.8.3_vite@2.8.6:

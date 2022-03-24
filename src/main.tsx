@@ -3,7 +3,6 @@ import { registerCommand } from "./register-command";
 
 function main() {
   const pluginId = logseq.baseInfo.id;
-  logseq.hideMainUI();
   console.info(`#${pluginId}: MAIN`);
   registerCommand();
   console.info(`#${pluginId}: MAIN DONE`);
