@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.7.1...v1.8.0) (2022-03-28)
+
+
+### Features
+
+* track page todos implicitly ([2e29da5](https://github.com/pengx17/logseq-plugin-todo-master/commit/2e29da5312ae457c1a67b9f803876fb2906df086))
+
 ## [1.7.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.7.0...v1.7.1) (2022-02-24)
 
 
