@@ -1,7 +1,7 @@
 /* make the extension with tcss to make sure vite does not transpile it by default */
 .todo-master-progress-bar {
   max-width: 100%;
-  height: 0.6rem;
+  height: 0.8rem;
   cursor: default;
   font-family: monospace;
   display: inline-flex !important;

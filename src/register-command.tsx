@@ -41,20 +41,40 @@ const reduceToMap = (vals?: Marker[]) => {
 };
 
 async function getTODOStats(maybeUUID: string) {
-  const markers = await getBlockMarkers(maybeUUID);
-  return markers ? reduceToMap(markers) : null;
+  const result = await getBlockMarkers(maybeUUID);
+  return result
+    ? { mapping: reduceToMap(result.markers), mode: result.mode }
+    : null;
 }
 
 function checkIsUUid(maybeUUID: string) {
   return maybeUUID.length === 36 && maybeUUID.includes("-");
 }
 
-async function getBlockMarkers(maybeUUID: string): Promise<Marker[] | null> {
+async function getBlockMarkers(
+  maybeUUID: string
+): Promise<{ markers: Marker[]; mode: "page" | "block" } | null> {
   let tree: any;
+  let pageMode = false;
   if (checkIsUUid(maybeUUID)) {
     tree = await logseq.Editor.getBlock(maybeUUID, { includeChildren: true });
-  } else {
+
+    // If this is the root node and have no children
+    if (
+      tree &&
+      tree.children &&
+      tree.children.length === 0 &&
+      tree.parent?.id &&
+      tree.parent?.id === tree.page?.id
+    ) {
+      maybeUUID = tree.page?.originalName;
+      tree = null;
+    }
+  }
+
+  if (!tree) {
     tree = { children: await logseq.Editor.getPageBlocksTree(maybeUUID) };
+    pageMode = true;
   }
 
   if (!tree || !tree.children) {
@@ -74,7 +94,10 @@ async function getBlockMarkers(maybeUUID: string): Promise<Marker[] | null> {
     }
   }
   traverse(tree);
-  return res;
+  return {
+    markers: res,
+    mode: pageMode ? "page" : "block",
+  };
 }
 const pluginId = "todomaster";
 const slotElId = (slot: string) => `${pluginId}-${slot}-${logseq.baseInfo.id}`;
@@ -96,7 +119,7 @@ async function render(maybeUUID: string, slot: string, counter: number) {
       return;
     }
     const template = ReactDOMServer.renderToStaticMarkup(
-      <ProgressBar status={status} />
+      <ProgressBar status={status?.mapping} mode={status?.mode} />
     );
 
     // See https://github.com/logseq/logseq-plugin-samples/blob/master/logseq-pomodoro-timer/index.ts#L92

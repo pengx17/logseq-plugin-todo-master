@@ -15,12 +15,14 @@ function renderBar(num: number, marker: string) {
 
 export function ProgressBar({
   status,
+  mode,
 }: {
-  status: {
+  status?: {
     later: number;
     now: number;
     done: number;
-  } | null;
+  };
+  mode?: "page" | "block";
 }) {
   if (!status) {
     return (
@@ -45,7 +47,9 @@ export function ProgressBar({
         <div className="todo-master-progress-bar__percentage-label">
           {percentage}%
         </div>
-        <div className="todo-master-progress-bar__fraction-label">{`${done}/${total}`}</div>
+        <div className="todo-master-progress-bar__fraction-label">
+          {`${mode}:${done}/${total}`}
+        </div>
       </div>
     </div>
   );
