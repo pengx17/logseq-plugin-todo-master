@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.8.0...v1.9.0) (2022-04-22)
+
+
+### Features
+
+* add support for queries ([5a273ff](https://github.com/pengx17/logseq-plugin-todo-master/commit/5a273ff850de1096b7688be9276a4e7161c1658c))
+
 # [1.8.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.7.1...v1.8.0) (2022-03-28)
 
 
