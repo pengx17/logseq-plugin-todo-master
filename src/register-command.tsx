@@ -1,7 +1,10 @@
+import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
+import { decode, encode } from "js-base64";
 import React from "react";
-import { encode, decode } from "js-base64";
+import { parseEDNString, toEDNString } from "edn-data";
+
 import ReactDOMServer from "react-dom/server";
-import { ProgressBar } from "./progress-bar";
+import { Mode, ProgressBar } from "./progress-bar";
 import style from "./style.tcss?raw";
 
 const macroPrefix = ":todomaster";
@@ -51,36 +54,89 @@ function checkIsUUid(maybeUUID: string) {
   return maybeUUID.length === 36 && maybeUUID.includes("-");
 }
 
-async function getBlockMarkers(
-  maybeUUID: string
-): Promise<{ markers: Marker[]; mode: "page" | "block" } | null> {
-  let tree: any;
-  let pageMode = false;
+// Get the body from the following ...
+// #+BEGIN_QUERY
+// {:title "{{renderer :todomaster}}"
+//  :query [:find (pull ?b [*])
+//                  :where
+//                 [?b :block/marker _]]}
+// #+END_QUERY
+function getQueryFromContent(_content: string) {
+  try {
+    let content = _content.trim();
+    const startToken = "#+BEGIN_QUERY";
+    const endToken = "#+END_QUERY";
+
+    const startIndex = content.indexOf(startToken);
+    const endIndex = content.indexOf(endToken);
+
+    if (startIndex === -1 || endIndex === -1) {
+      return null;
+    }
+
+    content = content.substring(startIndex + startToken.length, endIndex);
+    const contentEDN = parseEDNString(content) as any;
+    const query = toEDNString(
+      contentEDN.map.find((r: any) => r[0].key === "query")?.[1]
+    );
+    return query;
+  } catch (err) {
+    // ignore error
+  }
+  return null;
+}
+
+// Get a simple query from the content
+function getSimpleQueryFromContent(_content: string) {
+  return _content.trim().match(/{{query\s+(.*)\s*}}/)?.[1];
+}
+
+// By default, if UUID is valid, get the block children nodes
+// If UUID is not valid and it is rendered in a query block, get the query and render the result
+// If the current node is
+async function getBlockTreeAndMode(maybeUUID: string) {
+  let tree: Partial<BlockEntity> | null = null;
+  let mode: Mode = "block";
+
   if (checkIsUUid(maybeUUID)) {
     tree = await logseq.Editor.getBlock(maybeUUID, { includeChildren: true });
-
-    // If this is the root node and have no children
-    if (
-      tree &&
-      tree.children &&
-      tree.children.length === 0 &&
-      tree.parent?.id &&
-      tree.parent?.id === tree.page?.id
-    ) {
-      maybeUUID = tree.page?.originalName;
-      tree = null;
-    }
   }
 
-  if (!tree) {
-    tree = { children: await logseq.Editor.getPageBlocksTree(maybeUUID) };
-    pageMode = true;
+  if (tree?.content) {
+    const query = getQueryFromContent(tree?.content);
+    const simpleQuery = getSimpleQueryFromContent(tree?.content);
+    if (query) {
+      const result = (await logseq.DB.datascriptQuery(query))?.flat();
+      mode = "query";
+      tree = { children: result };
+    } else if (simpleQuery) {
+      const result = (await logseq.DB.q(simpleQuery))?.flat();
+      mode = "q";
+      tree = { children: result };
+    }
+  } else if (
+    // If this is the root node and have no children
+    tree &&
+    tree.children &&
+    tree.children.length === 0 &&
+    tree.parent?.id &&
+    tree.parent?.id === tree.page?.id
+  ) {
+    const maybePageName = tree?.page?.originalName ?? maybeUUID;
+    mode = "page";
+    tree = { children: await logseq.Editor.getPageBlocksTree(maybePageName) };
   }
 
   if (!tree || !tree.children) {
     return null; // Block/page not found
   }
 
+  return { tree, mode };
+}
+
+async function getBlockMarkers(
+  maybeUUID: string
+): Promise<{ markers: Marker[]; mode: Mode } | null> {
   const res: any[] = [];
   function traverse(tree: any) {
     if (tree.children) {
@@ -93,11 +149,18 @@ async function getBlockMarkers(
       res.push(tree.marker.toLowerCase());
     }
   }
-  traverse(tree);
-  return {
-    markers: res,
-    mode: pageMode ? "page" : "block",
-  };
+
+  const maybeTreeAndMode = await getBlockTreeAndMode(maybeUUID);
+
+  if (maybeTreeAndMode) {
+    traverse(maybeTreeAndMode.tree);
+    return {
+      markers: res,
+      mode: maybeTreeAndMode.mode,
+    };
+  }
+
+  return null;
 }
 const pluginId = "todomaster";
 const slotElId = (slot: string) => `${pluginId}-${slot}-${logseq.baseInfo.id}`;
@@ -149,6 +212,7 @@ async function startRendering(maybeUUID: string, slot: string) {
 
   while (await render(maybeUUID, slot, counter++)) {
     // sleep for 3000ms
+    // TODO: watch for DB changes for this block?
     await new Promise((resolve) => setTimeout(resolve, 3000));
     if (!(await slotExists(slot))) {
       rendering.delete(slot);

@@ -13,6 +13,8 @@ function renderBar(num: number, marker: string) {
   );
 }
 
+export type Mode = "page" | "block" | "query" | "q";
+
 export function ProgressBar({
   status,
   mode,
@@ -22,7 +24,7 @@ export function ProgressBar({
     now: number;
     done: number;
   };
-  mode?: "page" | "block";
+  mode?: Mode;
 }) {
   if (!status) {
     return (
