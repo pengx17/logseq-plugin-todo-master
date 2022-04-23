@@ -1,3 +1,10 @@
+## [1.9.3](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.9.2...v1.9.3) (2022-04-23)
+
+
+### Bug Fixes
+
+* query with inputs ([949e04a](https://github.com/pengx17/logseq-plugin-todo-master/commit/949e04ab770342f3e8538191ca029b7454082731))
+
 ## [1.9.2](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.9.1...v1.9.2) (2022-04-23)
 
 
