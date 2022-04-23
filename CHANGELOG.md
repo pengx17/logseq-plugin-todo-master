@@ -1,3 +1,10 @@
+## [1.9.2](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.9.1...v1.9.2) (2022-04-23)
+
+
+### Bug Fixes
+
+* style and event unlistener logic ([65cac97](https://github.com/pengx17/logseq-plugin-todo-master/commit/65cac9784ba2b1aacba6e666cd9c2d02b83c8a72))
+
 ## [1.9.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.9.0...v1.9.1) (2022-04-23)
 
 
