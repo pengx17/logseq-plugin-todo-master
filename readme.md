@@ -25,7 +25,7 @@ progress:: {{renderer :todomaster}}
 
 #### Add TODO Master into the query block's title
 
-```md
+```clojure
 #+BEGIN_QUERY
 {:title "{{renderer :todomaster}}"
     :query [:find (pull ?h [*])
