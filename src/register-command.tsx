@@ -6,6 +6,7 @@ import { parseEDNString, toEDNString } from "edn-data";
 import ReactDOMServer from "react-dom/server";
 import { Mode, ProgressBar } from "./progress-bar";
 import style from "./style.tcss?raw";
+import { change$ } from "./observables";
 
 const macroPrefix = ":todomaster";
 
@@ -201,7 +202,7 @@ async function render(maybeUUID: string, slot: string, counter: number) {
       return true;
     }
   } catch (err: any) {
-    console.error(err);
+    // console.error(err);
     // skip invalid
   }
 }
@@ -210,15 +211,15 @@ async function startRendering(maybeUUID: string, slot: string) {
   rendering.set(slot, { maybeUUID, template: "" });
   let counter = 0;
 
-  while (await render(maybeUUID, slot, counter++)) {
-    // sleep for 3000ms
-    // TODO: watch for DB changes for this block?
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+  const unsub = change$.subscribe(async (e) => {
+    await render(maybeUUID, slot, counter++);
     if (!(await slotExists(slot))) {
       rendering.delete(slot);
-      break;
+      if (!unsub.closed) {
+        unsub.unsubscribe();
+      }
     }
-  }
+  });
 }
 
 export function registerCommand() {

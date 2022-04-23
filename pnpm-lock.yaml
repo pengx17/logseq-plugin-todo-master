@@ -19,6 +19,7 @@ specifiers:
   react: ^18.0.0
   react-dom: ^18.0.0
   react-use: ^17.3.2
+  rxjs: ^7.5.5
   semantic-release: 19.0.2
   typescript: 4.6.3
   vite: 2.9.5
@@ -32,6 +33,7 @@ dependencies:
   react: 18.0.0
   react-dom: 18.0.0_react@18.0.0
   react-use: 17.3.2_react-dom@18.0.0+react@18.0.0
+  rxjs: 7.5.5
 
 devDependencies:
   '@semantic-release/changelog': 6.0.1_semantic-release@19.0.2
@@ -3164,6 +3166,12 @@ packages:
     dependencies:
       queue-microtask: 1.2.3
     dev: true
+
+  /rxjs/7.5.5:
+    resolution: {integrity: sha512-sy+H0pQofO95VDmFLzyaw9xNJU4KTRSwQIGM6+iG3SypAtCiLDzpeG8sJrNCWn2Up9km+KhkvTdbkrdy+yzZdw==}
+    dependencies:
+      tslib: 2.4.0
+    dev: false
 
   /safe-buffer/5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
