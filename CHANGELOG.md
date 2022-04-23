@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.9.0...v1.9.1) (2022-04-23)
+
+
+### Bug Fixes
+
+* optimize rendering logic with rxjs ([4b1cec1](https://github.com/pengx17/logseq-plugin-todo-master/commit/4b1cec1234947d59d7115bab852f7288c040c75f))
+
 # [1.9.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.8.0...v1.9.0) (2022-04-22)
 
 
