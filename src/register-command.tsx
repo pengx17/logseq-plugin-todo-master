@@ -166,8 +166,16 @@ async function getBlockMarkers(
 const pluginId = "todomaster";
 const slotElId = (slot: string) => `${pluginId}-${slot}-${logseq.baseInfo.id}`;
 
+const delay = (t: number) =>
+  new Promise((res) => {
+    setTimeout(res, t);
+  });
+
 function slotExists(slot: string) {
-  return Promise.resolve(logseq.App.queryElementById(slotElId(slot)));
+  return Promise.race([
+    Promise.resolve(logseq.App.queryElementById(slotElId(slot))),
+    delay(100),
+  ]);
 }
 
 // slot -> rendering state
@@ -202,7 +210,7 @@ async function render(maybeUUID: string, slot: string, counter: number) {
       return true;
     }
   } catch (err: any) {
-    // console.error(err);
+    console.error(err);
     // skip invalid
   }
 }
@@ -213,7 +221,8 @@ async function startRendering(maybeUUID: string, slot: string) {
 
   const unsub = change$.subscribe(async (e) => {
     await render(maybeUUID, slot, counter++);
-    if (!(await slotExists(slot))) {
+    const exist = await slotExists(slot);
+    if (!exist) {
       rendering.delete(slot);
       if (!unsub.closed) {
         unsub.unsubscribe();

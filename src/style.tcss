@@ -17,6 +17,7 @@
   border-radius: 4px;
   box-shadow: 0 0 1px #aaa;
   width: 240px;
+  margin-left: 1px;
 }
 
 .todo-master-progress-bar__bar {
