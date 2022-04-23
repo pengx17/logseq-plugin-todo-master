@@ -76,11 +76,17 @@ function getQueryFromContent(_content: string) {
     }
 
     content = content.substring(startIndex + startToken.length, endIndex);
-    const contentEDN = parseEDNString(content) as any;
+    const contentEDN = (parseEDNString(content) as any).map;
     const query = toEDNString(
-      contentEDN.map.find((r: any) => r[0].key === "query")?.[1]
+      contentEDN.find((r: any) => r[0].key === "query")?.[1]
     );
-    return query;
+    // TODO: Logseq inputs can contain magic strings, like :today etc
+    // TODO: Need to transform them before passing to DataScript.
+    // ref: https://github.com/logseq/logseq/blob/130728adcd7acd4250a78a4e34b1c2d69c0ca3e1/src/main/frontend/db/query_react.cljs#L17-L49
+    const inputs = contentEDN
+      .find((r: any) => r[0].key === "inputs")?.[1]
+      ?.map(toEDNString);
+    return { query, inputs };
   } catch (err) {
     // ignore error
   }
@@ -104,10 +110,15 @@ async function getBlockTreeAndMode(maybeUUID: string) {
   }
 
   if (tree?.content) {
-    const query = getQueryFromContent(tree?.content);
+    const queryAndInputs = getQueryFromContent(tree?.content);
     const simpleQuery = getSimpleQueryFromContent(tree?.content);
-    if (query) {
-      const result = (await logseq.DB.datascriptQuery(query))?.flat();
+    if (queryAndInputs) {
+      const result = (
+        await logseq.DB.datascriptQuery(
+          queryAndInputs.query,
+          ...queryAndInputs.inputs
+        )
+      )?.flat();
       mode = "query";
       tree = { children: result };
     } else if (simpleQuery) {
@@ -257,7 +268,7 @@ export function registerCommand() {
     }
   });
 
-  async function insertMacro(mode: "page" | "block") {
+  async function insertMacro(mode: "page" | "block" = "block") {
     const block = await logseq.Editor.getCurrentBlock();
     if (block && block.uuid) {
       let content = "";
@@ -282,16 +293,9 @@ export function registerCommand() {
   }
 
   logseq.Editor.registerSlashCommand(
-    "[TODO Master] Add Progress Bar for children blocks",
+    "[TODO Master] Add Progress Bar",
     async () => {
-      return insertMacro("block");
-    }
-  );
-
-  logseq.Editor.registerSlashCommand(
-    "[TODO Master] Add Progress Bar for current page",
-    async () => {
-      return insertMacro("page");
+      return insertMacro();
     }
   );
 }
