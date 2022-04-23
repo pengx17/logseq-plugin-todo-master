@@ -17,14 +17,27 @@ The progress will be calculated based on the position of the macro.
 
 Since this macro `{{renderer :todomaster}}` will display progress based on the rendering block, you can place it in the journal template, or in a query block title. Here are some examples:
 
-#### Add Todo Master into the page's properties
+#### Add TODO Master into the page's properties
 
 ```md
 progress:: {{renderer :todomaster}}
 ```
 
-#### Add Todo Master into the page's properties
+#### Add TODO Master into the query block's title
 
 ```md
-progress:: {{renderer :todomaster}}
+#+BEGIN_QUERY
+{:title "{{renderer :todomaster}}"
+    :query [:find (pull ?h [*])
+            :in $ ?start ?next
+            :where
+            [?h :block/marker ?marker]
+            [?h :block/refs ?p]
+            [?p :block/journal? true]
+            [?p :block/journal-day ?d]
+            [(> ?d ?start)]
+            [(< ?d ?next)]]
+    :inputs [:today :7d-after]
+    :collapsed? false}
+#+END_QUERY
 ```
