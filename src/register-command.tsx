@@ -116,7 +116,6 @@ async function getBlockTreeAndMode(maybeUUID: string) {
       const result = (
         await logseq.DB.datascriptQuery(
           queryAndInputs.query,
-          // @ts-expect-error fix SDK type
           ...(queryAndInputs.inputs ?? [])
         )
       )?.flat();
@@ -138,7 +137,6 @@ async function getBlockTreeAndMode(maybeUUID: string) {
     tree.parent?.id &&
     tree.parent?.id === tree.page?.id
   ) {
-    // @ts-expect-error fix SDK type
     const maybePageName = tree?.page?.originalName ?? maybeUUID;
 
     mode = "page";
