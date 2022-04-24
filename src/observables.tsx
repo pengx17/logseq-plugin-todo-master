@@ -1,5 +1,6 @@
 import { Observable, debounceTime, startWith } from "rxjs";
 
+// @ts-expect-error fix SDK type
 type ChangeEvent = Parameters<Parameters<typeof logseq.DB.onChanged>[0]>[0];
 
 export const change$ = new Observable<ChangeEvent>((sub) => {
@@ -10,9 +11,10 @@ export const change$ = new Observable<ChangeEvent>((sub) => {
     }
   };
   // TODO: onChanged seems not return off hook
-  logseq.DB.onChanged(listener);
+  // @ts-expect-error fix SDK type
+  const unsubscribe = logseq.DB.onChanged(listener);
   return () => {
-    console.log('change$ unsubscribe!!!');
+    unsubscribe();
     destroyed = true;
   };
 })

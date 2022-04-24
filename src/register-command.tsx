@@ -83,7 +83,7 @@ function getQueryFromContent(_content: string) {
     // TODO: Logseq inputs can contain magic strings, like :today etc
     // TODO: Need to transform them before passing to DataScript.
     // ref: https://github.com/logseq/logseq/blob/130728adcd7acd4250a78a4e34b1c2d69c0ca3e1/src/main/frontend/db/query_react.cljs#L17-L49
-    const inputs = contentEDN
+    const inputs: string[] = contentEDN
       .find((r: any) => r[0].key === "inputs")?.[1]
       ?.map(toEDNString);
     return { query, inputs };
@@ -103,7 +103,7 @@ function getSimpleQueryFromContent(_content: string) {
 // If the current node is
 async function getBlockTreeAndMode(maybeUUID: string) {
   let tree: Partial<BlockEntity> | null = null;
-  let mode: Mode = "block";
+  let mode: Mode | null = null;
 
   if (checkIsUUid(maybeUUID)) {
     tree = await logseq.Editor.getBlock(maybeUUID, { includeChildren: true });
@@ -116,7 +116,8 @@ async function getBlockTreeAndMode(maybeUUID: string) {
       const result = (
         await logseq.DB.datascriptQuery(
           queryAndInputs.query,
-          ...queryAndInputs.inputs
+          // @ts-expect-error fix SDK type
+          ...(queryAndInputs.inputs ?? [])
         )
       )?.flat();
       mode = "query";
@@ -126,7 +127,10 @@ async function getBlockTreeAndMode(maybeUUID: string) {
       mode = "q";
       tree = { children: result };
     }
-  } else if (
+  }
+
+  if (
+    !mode &&
     // If this is the root node and have no children
     tree &&
     tree.children &&
@@ -134,7 +138,9 @@ async function getBlockTreeAndMode(maybeUUID: string) {
     tree.parent?.id &&
     tree.parent?.id === tree.page?.id
   ) {
+    // @ts-expect-error fix SDK type
     const maybePageName = tree?.page?.originalName ?? maybeUUID;
+
     mode = "page";
     tree = { children: await logseq.Editor.getPageBlocksTree(maybePageName) };
   }
@@ -142,6 +148,8 @@ async function getBlockTreeAndMode(maybeUUID: string) {
   if (!tree || !tree.children) {
     return null; // Block/page not found
   }
+
+  mode = mode || "block";
 
   return { tree, mode };
 }
