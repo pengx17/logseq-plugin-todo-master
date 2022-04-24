@@ -1,3 +1,11 @@
+## [1.9.4](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.9.3...v1.9.4) (2022-04-24)
+
+
+### Bug Fixes
+
+* ts types error ([5ea5992](https://github.com/pengx17/logseq-plugin-todo-master/commit/5ea59920155396d5cc993c3bbb9aef67f97c8cbb))
+* various query errors ([f14ee04](https://github.com/pengx17/logseq-plugin-todo-master/commit/f14ee04da489d903258699fe218767cbee1b5314))
+
 ## [1.9.3](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.9.2...v1.9.3) (2022-04-23)
 
 
