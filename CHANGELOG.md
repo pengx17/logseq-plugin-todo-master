@@ -1,3 +1,10 @@
+## [1.9.5](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.9.4...v1.9.5) (2022-05-02)
+
+
+### Bug Fixes
+
+* multiple progress bars per page ([e991edd](https://github.com/pengx17/logseq-plugin-todo-master/commit/e991edd4fa3b0126ab72d8ed07aed79f9d05b407))
+
 ## [1.9.4](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.9.3...v1.9.4) (2022-04-24)
 
 
