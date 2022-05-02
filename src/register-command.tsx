@@ -1,12 +1,13 @@
 import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
+import { parseEDNString, toEDNString } from "edn-data";
 import { decode, encode } from "js-base64";
 import React from "react";
-import { parseEDNString, toEDNString } from "edn-data";
-
 import ReactDOMServer from "react-dom/server";
+import { filter } from "rxjs";
+
+import { change$ } from "./observables";
 import { Mode, ProgressBar } from "./progress-bar";
 import style from "./style.tcss?raw";
-import { change$ } from "./observables";
 
 const macroPrefix = ":todomaster";
 
@@ -181,7 +182,6 @@ async function getBlockMarkers(
   return null;
 }
 const pluginId = "todomaster";
-const slotElId = (slot: string) => `${pluginId}-${slot}-${logseq.baseInfo.id}`;
 
 const delay = (t: number) =>
   new Promise((res) => {
@@ -190,8 +190,8 @@ const delay = (t: number) =>
 
 function slotExists(slot: string) {
   return Promise.race([
-    Promise.resolve(logseq.App.queryElementById(slotElId(slot))),
-    delay(100),
+    Promise.resolve(logseq.App.queryElementById(slot)),
+    delay(1000).then(() => false),
   ]);
 }
 
@@ -219,7 +219,7 @@ async function render(maybeUUID: string, slot: string, counter: number) {
       }
       rendering.get(slot)!.template = template;
       logseq.provideUI({
-        key: pluginId,
+        key: pluginId + "__" + slot,
         slot,
         reset: true,
         template: template,

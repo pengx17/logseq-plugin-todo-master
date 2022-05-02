@@ -16,5 +16,5 @@ export const change$ = new Observable<ChangeEvent>((sub) => {
     destroyed = true;
   };
 })
-  .pipe(debounceTime(1000))
+  .pipe(debounceTime(500))
   .pipe(startWith(null));
