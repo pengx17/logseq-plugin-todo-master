@@ -156,23 +156,29 @@ async function getBlockTreeAndMode(maybeUUID: string) {
 async function getBlockMarkers(
   maybeUUID: string
 ): Promise<{ markers: Marker[]; mode: Mode } | null> {
-  const res: any[] = [];
-  function traverse(tree: any) {
+  async function traverse(tree: any, res: any[]): Promise<any[]> {
     if (tree.children) {
       for (const child of tree.children) {
-        traverse(child);
+        await traverse(child, res);
       }
+    }
+
+    if (tree.content?.startsWith("((") && tree.content?.endsWith("))")) {
+      const block = await logseq.Editor.getBlock(tree.content.slice(2, -2))
+      tree.marker = block?.marker
     }
 
     if (tree.uuid && tree.marker && tree.uuid !== maybeUUID) {
       res.push(tree.marker.toLowerCase());
     }
+
+    return res
   }
 
   const maybeTreeAndMode = await getBlockTreeAndMode(maybeUUID);
 
   if (maybeTreeAndMode) {
-    traverse(maybeTreeAndMode.tree);
+    const res = await traverse(maybeTreeAndMode.tree, []);
     return {
       markers: res,
       mode: maybeTreeAndMode.mode,
