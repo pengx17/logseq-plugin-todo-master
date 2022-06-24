@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.9.5...v1.10.0) (2022-06-24)
+
+
+### Features
+
+* support block reference ([9eb7ce5](https://github.com/pengx17/logseq-plugin-todo-master/commit/9eb7ce55ae894443cc73eeb5f58bf0283465fc5e))
+
 ## [1.9.5](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.9.4...v1.9.5) (2022-05-02)
 
 
