@@ -153,20 +153,19 @@ async function getBlockTreeAndMode(maybeUUID: string) {
   return { tree, mode };
 }
 
-function getReferenceContent(content: string): string | null {
+function getContentRefIds(content: string): any[] {
 
-  if (content?.includes("((") && content?.includes("))")) {
-    const startIndex = content.lastIndexOf("((") + 2
-    const endIndex = content.indexOf("))")
+  const refIds: any = []
 
-    if (endIndex < startIndex) {
-      return null
-    }
+  const results = [...content.matchAll(/\(\(([a-zA-Z0-9-]*)\)\)/g)]
 
-    return content.slice(startIndex, endIndex)
-  }
+  results.forEach(res => refIds.push(res[1]))
 
-  return null
+  return refIds
+}
+
+function blockHasMarker(block: any, maybeUUID: string): boolean {
+  return block.uuid && block.marker && block.uuid !== maybeUUID
 }
 
 async function getBlockMarkers(
@@ -179,13 +178,15 @@ async function getBlockMarkers(
       }
     }
 
-    const content = getReferenceContent(tree.content)
-    if (content != null) {
-      const block = await logseq.Editor.getBlock(content)
-      tree.marker = block?.marker
+    const refIds = getContentRefIds(tree.content)
+    for (const refId of refIds) {
+      const block = await logseq.Editor.getBlock(refId)
+      if (block && blockHasMarker(block, maybeUUID)) {
+        res.push(block.marker.toLowerCase());
+      }
     }
 
-    if (tree.uuid && tree.marker && tree.uuid !== maybeUUID) {
+    if (blockHasMarker(tree, maybeUUID)) {
       res.push(tree.marker.toLowerCase());
     }
 
