@@ -1,3 +1,11 @@
+## [1.10.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.10.0...v1.10.1) (2022-06-28)
+
+
+### Bug Fixes
+
+* embed reference block ([4d5b315](https://github.com/pengx17/logseq-plugin-todo-master/commit/4d5b315aa0b792e399fdca5746db39512844bb3e))
+* use regex match all ref block content ([8ebf162](https://github.com/pengx17/logseq-plugin-todo-master/commit/8ebf1621e75d163e7668ed5f11af3addb8883824))
+
 # [1.10.0](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.9.5...v1.10.0) (2022-06-24)
 
 
