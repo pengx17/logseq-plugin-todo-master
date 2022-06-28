@@ -153,6 +153,22 @@ async function getBlockTreeAndMode(maybeUUID: string) {
   return { tree, mode };
 }
 
+function getReferenceContent(content: string): string | null {
+
+  if (content?.includes("((") && content?.includes("))")) {
+    const startIndex = content.lastIndexOf("((") + 2
+    const endIndex = content.indexOf("))")
+
+    if (endIndex < startIndex) {
+      return null
+    }
+
+    return content.slice(startIndex, endIndex)
+  }
+
+  return null
+}
+
 async function getBlockMarkers(
   maybeUUID: string
 ): Promise<{ markers: Marker[]; mode: Mode } | null> {
@@ -163,8 +179,9 @@ async function getBlockMarkers(
       }
     }
 
-    if (tree.content?.startsWith("((") && tree.content?.endsWith("))")) {
-      const block = await logseq.Editor.getBlock(tree.content.slice(2, -2))
+    const content = getReferenceContent(tree.content)
+    if (content != null) {
+      const block = await logseq.Editor.getBlock(content)
       tree.marker = block?.marker
     }
 
