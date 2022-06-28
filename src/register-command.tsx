@@ -153,6 +153,21 @@ async function getBlockTreeAndMode(maybeUUID: string) {
   return { tree, mode };
 }
 
+function getContentRefIds(content: string): any[] {
+
+  const refIds: any = []
+
+  const results = [...content.matchAll(/\(\(([a-zA-Z0-9-]*)\)\)/g)]
+
+  results.forEach(res => refIds.push(res[1]))
+
+  return refIds
+}
+
+function blockHasMarker(block: any, maybeUUID: string): boolean {
+  return block.uuid && block.marker && block.uuid !== maybeUUID
+}
+
 async function getBlockMarkers(
   maybeUUID: string
 ): Promise<{ markers: Marker[]; mode: Mode } | null> {
@@ -163,12 +178,15 @@ async function getBlockMarkers(
       }
     }
 
-    if (tree.content?.startsWith("((") && tree.content?.endsWith("))")) {
-      const block = await logseq.Editor.getBlock(tree.content.slice(2, -2))
-      tree.marker = block?.marker
+    const refIds = getContentRefIds(tree.content)
+    for (const refId of refIds) {
+      const block = await logseq.Editor.getBlock(refId)
+      if (block && blockHasMarker(block, maybeUUID)) {
+        res.push(block.marker.toLowerCase());
+      }
     }
 
-    if (tree.uuid && tree.marker && tree.uuid !== maybeUUID) {
+    if (blockHasMarker(tree, maybeUUID)) {
       res.push(tree.marker.toLowerCase());
     }
 
