@@ -1,4 +1,5 @@
 import React from "react";
+import { getTextLabelSize } from "./get-text-label";
 
 function renderBar(num: number, marker: string) {
   return (
@@ -38,6 +39,9 @@ export function ProgressBar({
   const { done, now, later } = status;
   const total = done + now + later;
   const percentage = total === 0 ? `0` : ((done / total) * 100).toFixed(0);
+  const shortText = `${percentage}%`;
+  const fullText = `${mode}:${done}/${total}`;
+  const [width] = getTextLabelSize(fullText);
   return (
     <div className="todo-master-progress-bar">
       <div className="todo-master-progress-bar__bars">
@@ -45,12 +49,12 @@ export function ProgressBar({
         {renderBar(now, "now")}
         {renderBar(later, "later")}
       </div>
-      <div className="todo-master-progress-bar__label">
+      <div className="todo-master-progress-bar__label" style={{ width }}>
         <div className="todo-master-progress-bar__percentage-label">
-          {percentage}%
+          {shortText}
         </div>
         <div className="todo-master-progress-bar__fraction-label">
-          {`${mode}:${done}/${total}`}
+          {fullText}
         </div>
       </div>
     </div>

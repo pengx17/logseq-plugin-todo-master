@@ -3,7 +3,6 @@ import { parseEDNString, toEDNString } from "edn-data";
 import { decode, encode } from "js-base64";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
-import { filter } from "rxjs";
 
 import { change$ } from "./observables";
 import { Mode, ProgressBar } from "./progress-bar";
@@ -154,18 +153,13 @@ async function getBlockTreeAndMode(maybeUUID: string) {
 }
 
 function getContentRefIds(content: string): any[] {
-
-  const refIds: any = []
-
-  const results = [...content.matchAll(/\(\(([a-zA-Z0-9-]*)\)\)/g)]
-
-  results.forEach(res => refIds.push(res[1]))
-
-  return refIds
+  return [...(content ?? "").matchAll(/\(\(([a-zA-Z0-9-]*)\)\)/g)].map(
+    (pair) => pair[1]
+  );
 }
 
 function blockHasMarker(block: any, maybeUUID: string): boolean {
-  return block.uuid && block.marker && block.uuid !== maybeUUID
+  return block.uuid && block.marker && block.uuid !== maybeUUID;
 }
 
 async function getBlockMarkers(
@@ -178,9 +172,9 @@ async function getBlockMarkers(
       }
     }
 
-    const refIds = getContentRefIds(tree.content)
+    const refIds = getContentRefIds(tree.content);
     for (const refId of refIds) {
-      const block = await logseq.Editor.getBlock(refId)
+      const block = await logseq.Editor.getBlock(refId);
       if (block && blockHasMarker(block, maybeUUID)) {
         res.push(block.marker.toLowerCase());
       }
@@ -190,7 +184,7 @@ async function getBlockMarkers(
       res.push(tree.marker.toLowerCase());
     }
 
-    return res
+    return res;
   }
 
   const maybeTreeAndMode = await getBlockTreeAndMode(maybeUUID);
