@@ -1,3 +1,10 @@
+## [1.10.2](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.10.1...v1.10.2) (2022-06-29)
+
+
+### Bug Fixes
+
+* todo master label width issue ([cc19761](https://github.com/pengx17/logseq-plugin-todo-master/commit/cc19761c4e4d6e3b92d4d8b1a773df7886c0eef2))
+
 ## [1.10.1](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.10.0...v1.10.1) (2022-06-28)
 
 
