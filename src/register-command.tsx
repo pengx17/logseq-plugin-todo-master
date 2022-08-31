@@ -2,6 +2,8 @@ import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
 import { parseEDNString, toEDNString } from "edn-data";
 import { decode, encode } from "js-base64";
 import React from "react";
+import { interval, merge } from "rxjs";
+
 import ReactDOMServer from "react-dom/server";
 
 import { change$ } from "./observables";
@@ -254,7 +256,7 @@ async function startRendering(maybeUUID: string, slot: string) {
   rendering.set(slot, { maybeUUID, template: "" });
   let counter = 0;
 
-  const unsub = change$.subscribe(async (e) => {
+  const unsub = merge(change$, interval(5000)).subscribe(async (e) => {
     await render(maybeUUID, slot, counter++);
     const exist = await slotExists(slot);
     if (!exist) {
