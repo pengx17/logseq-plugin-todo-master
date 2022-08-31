@@ -1,3 +1,10 @@
+## [1.10.3](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.10.2...v1.10.3) (2022-08-31)
+
+
+### Bug Fixes
+
+* refresh todo every 5s ([74b2228](https://github.com/pengx17/logseq-plugin-todo-master/commit/74b222854d96677d72592957efe17b683fd61e24))
+
 ## [1.10.2](https://github.com/pengx17/logseq-plugin-todo-master/compare/v1.10.1...v1.10.2) (2022-06-29)
 
 
